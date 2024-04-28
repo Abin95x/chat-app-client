@@ -2,8 +2,13 @@ import React from 'react'
 import {useForm} from 'react-hook-form'
 
 export const Signup = () => {
-    const {register, handleSubmit, formState: {errors}} = useForm()
-    const onSubmit = (data) => {
+    const {register, handleSubmit, formState: {errors,isSubmitting},getValues} = useForm()
+    const onSubmit = async (data) => {
+        await new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                resolve()
+            },2000)
+        })
         console.log(data)
     }
 
@@ -49,7 +54,7 @@ export const Signup = () => {
                
                 <span className='px-1'>Password</span>
                 <input 
-                 type="text" 
+                 type="password" 
                  placeholder='Enter password' 
                  className='bg-slate-200 h-10 p-5 rounded-md'
                  {...register('password1',{
@@ -64,9 +69,9 @@ export const Signup = () => {
                 {errors.password1 ? (<div className='text-red-500'>{errors.password1.message}</div>) : <br /> }
               
                 {/* <br /> */}
-                <span className='px-1'>Password</span>
+                <span className='px-1'>Confirm password</span>
                 <input 
-                 type="text" 
+                 type="password" 
                  placeholder='Enter password' 
                  className='bg-slate-200 h-10 p-5 rounded-md'
                  {...register('password2',{
@@ -75,17 +80,21 @@ export const Signup = () => {
                     minLength:{
                         value: 8,
                         message: 'Password must have at least 8 charecters'
-                    }
-                 })}
+                    },
+                    validate: value => value === getValues('password1') || 'Passwords do not match'
+                })}
                 />
                 {errors.password2 ? (<div className='text-red-500'>{errors.password2.message}</div>) : <br /> }
+                
 
             </div>
             <div className='flex justify-center '>
                 <button 
                  type='submit' 
-                 className=' w-[35%] h-8 rounded-md bg-slate-600 dark:md:hover:bg-slate-900 text-white'>
-                     Signup 
+                 className=' w-[35%] h-8 rounded-md bg-slate-600 dark:md:hover:bg-slate-900 text-white'
+                 disabled={isSubmitting}
+                >
+                     {isSubmitting ? 'Loading...' : 'Signup'}
                 </button>
             </div>
             </form>
