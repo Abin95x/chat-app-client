@@ -1,7 +1,11 @@
 import React from 'react'
-
+import {useForm} from 'react-hook-form'
 
 export const Signup = () => {
+    const {register, handleSubmit, formState: {errors}} = useForm()
+    const onSubmit = (data) => {
+        console.log(data)
+    }
 
 
   return (
@@ -11,9 +15,7 @@ export const Signup = () => {
             <div>
                 <h3 className='text-center text-2xl font-bold text-white p-5 bg-blue-300 rounded-t-2xl'>SIGNUP</h3>
             </div>
-            <form action="">
-                
-            </form>
+            <form onSubmit={handleSubmit(onSubmit)}>
             <div className='flex flex-col p-8'>
 
                 <span className='px-1'>Name</span>
@@ -21,40 +23,73 @@ export const Signup = () => {
                  type="text"
                  placeholder='Enter name'
                  className='bg-slate-200 h-10 p-5 rounded-md'
+                 {...register('name',{
+                    required: 'Name is required',                 
+                 })}
                 />
+                {errors.name ? (<div className='text-red-500'>{errors.name.message}</div>) : <br /> }
 
-                <br />
                 <span className='px-1'>Email</span>
                 <input
                  type="text" 
-                 placeholder='Enter emai' 
+                 placeholder='Enter email' 
                  className='bg-slate-200 h-10 p-5 rounded-md'
+                 {...register('email',{
+                    required: 'Email is required',
+                    // pattern: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                    validate: (value) => {
+                        if(!value.includes('@')){
+                            return 'Email must include @'
+                        }
+                        return true
+                    }
+                 })}
                 />
+                {errors.email ? (<div className='text-red-500'>{errors.email.message}</div>) : <br /> }
                
-                <br />
                 <span className='px-1'>Password</span>
                 <input 
                  type="text" 
                  placeholder='Enter password' 
                  className='bg-slate-200 h-10 p-5 rounded-md'
+                 {...register('password1',{
+                    required: 'Password is required',
+                    // pattern: /^[a-zA-Z0-9!@#\$%\^\&*_=+-]{8,12}$/g,
+                    minLength:{
+                        value: 8,
+                        message: 'Password must have at least 8 charecters'
+                    }
+                 })}
                 />
+                {errors.password1 ? (<div className='text-red-500'>{errors.password1.message}</div>) : <br /> }
               
-                <br />
+                {/* <br /> */}
                 <span className='px-1'>Password</span>
                 <input 
                  type="text" 
                  placeholder='Enter password' 
                  className='bg-slate-200 h-10 p-5 rounded-md'
-                 />
-            </div>
+                 {...register('password2',{
+                    required: 'Password is required',
+                    // pattern: /^[a-zA-Z0-9!@#\$%\^\&*_=+-]{8,12}$/g,
+                    minLength:{
+                        value: 8,
+                        message: 'Password must have at least 8 charecters'
+                    }
+                 })}
+                />
+                {errors.password2 ? (<div className='text-red-500'>{errors.password2.message}</div>) : <br /> }
 
+            </div>
             <div className='flex justify-center '>
                 <button 
-                 type='button' 
+                 type='submit' 
                  className=' w-[35%] h-8 rounded-md bg-slate-600 dark:md:hover:bg-slate-900 text-white'>
-                     Login 
+                     Signup 
                 </button>
             </div>
+            </form>
+           
             <div className='flex justify-center p-5'>
                 <span>or</span>
             </div>
