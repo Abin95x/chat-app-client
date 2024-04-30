@@ -1,15 +1,11 @@
 import React from 'react'
 import {useForm} from 'react-hook-form'
+import { userSignup } from '../../apis/userApi' 
 
 export const Signup = () => {
     const {register, handleSubmit, formState: {errors,isSubmitting},getValues} = useForm()
     const onSubmit = async (data) => {
-        await new Promise((resolve,reject)=>{
-            setTimeout(()=>{
-                resolve()
-            },2000)
-        })
-        console.log(data)
+        const res = await userSignup(data)      
     }
 
 
