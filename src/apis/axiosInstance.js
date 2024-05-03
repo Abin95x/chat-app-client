@@ -1,15 +1,16 @@
 import axios from 'axios'
-
-
-const baseURL = import.meta.env.USER_BASE_URL;
+const baseURL = 'http://localhost:3000';
+console.log(baseURL)
 const userBaseURL = baseURL
 const adminbaseURL = `${baseURL}/admin`
 
 const createInstance = (baseURL) => {
+  console.log('heloooo')
     const instance = axios.create({
-        baseURL,
-        timeout: 1000,
-        // headers: {'X-Custom-Header': 'foobar'}
+      baseURL,
+      timeout: 1000,
+      headers: {'Content-Type': 'application/json'},
+      withCredentials: true,
       });
       return instance
 }
