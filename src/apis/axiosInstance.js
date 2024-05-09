@@ -1,6 +1,5 @@
 import axios from 'axios'
 const baseURL = 'http://localhost:3000';
-console.log(baseURL)
 const userBaseURL = baseURL
 const adminbaseURL = `${baseURL}/admin`
 
